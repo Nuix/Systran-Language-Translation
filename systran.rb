@@ -170,15 +170,25 @@ class Systran
 		end
 		puts("Running Systran test for version:#{@version}")
 		#@profiles=doCall('/translation/profiles')["profiles"]
-		@languages=doCall('/translation/supportedLanguages')["languagePairs"].map{|language|
-			languageDetails={
-				"source"=>language['source'],
-				"target"=>language['target'],
-			}
-			javaLocale=java.util.Locale.new(languageDetails['source'].split('-')[0])
-			languageDetails['source3Letter']=javaLocale.getISO3Language() #used for intelligent lookups from nuix's language detection.
-			languageDetails
-		}
+		@languages=[]
+		supportedLanguages=doCall('/translation/supportedLanguages')
+		if(supportedLanguages.nil?)
+			puts("Error finding out supported langauges?")
+		else
+			if(supportedLanguages["languagePairs"].nil?)
+				puts("Language pairs are not found."
+			else
+				@languages=supportedLanguages["languagePairs"].map{|language|
+					languageDetails={
+						"source"=>language['source'],
+						"target"=>language['target'],
+					}
+					javaLocale=java.util.Locale.new(languageDetails['source'].split('-')[0])
+					languageDetails['source3Letter']=javaLocale.getISO3Language() #used for intelligent lookups from nuix's language detection.
+					languageDetails
+				}
+			end
+		end
 		#@formats=doCall('/translation/supportedFormats')["formats"]
 	end
 

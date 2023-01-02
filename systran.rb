@@ -176,7 +176,7 @@ class Systran
 			puts("Error finding out supported langauges?")
 		else
 			if(supportedLanguages["languagePairs"].nil?)
-				puts("Language pairs are not found."
+				puts("Language pairs are not found.")
 			else
 				@languages=supportedLanguages["languagePairs"].map{|language|
 					languageDetails={
